@@ -1,6 +1,6 @@
 
-import { useState } from 'react';
-import QrScanner from 'qr-scanner';
+import { useState, useEffect } from 'react';
+import { Html5QrcodeScanner } from 'html5-qrcode';
 import QRCode from 'qrcode';
 import './App.css';
 
@@ -9,17 +9,26 @@ export default function App() {
   const [modifiedQR, setModifiedQR] = useState('');
   const [decodedData, setDecodedData] = useState(null);
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+  useEffect(() => {
+    const scanner = new Html5QrcodeScanner('reader', {
+      qrbox: { width: 250, height: 250 },
+      fps: 5,
+    });
 
-    try {
-      const result = await QrScanner.scanImage(file);
-      setScannedData(result);
-      processQRData(result);
-    } catch (error) {
-      console.error('Error scanning QR code:', error);
-    }
+    scanner.render(onScanSuccess, onScanError);
+
+    return () => {
+      scanner.clear();
+    };
+  }, []);
+
+  const onScanSuccess = (data) => {
+    setScannedData(data);
+    processQRData(data);
+  };
+
+  const onScanError = (err) => {
+    console.error(err);
   };
 
   const processQRData = (data) => {
@@ -61,12 +70,7 @@ export default function App() {
       <h1>QR Code Scanner & Modifier</h1>
       
       <div className="scanner-section">
-        <input 
-          type="file" 
-          accept="image/*" 
-          onChange={handleFileUpload}
-          className="file-input"
-        />
+        <div id="reader"></div>
       </div>
 
       {decodedData && (

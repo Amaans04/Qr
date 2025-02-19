@@ -5,9 +5,37 @@ import QRCode from 'qrcode';
 import './App.css';
 
 export default function App() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
   const [scannedData, setScannedData] = useState('');
   const [modifiedQR, setModifiedQR] = useState('');
   const [decodedData, setDecodedData] = useState(null);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (password === 'MeraPapaAmaan') {
+      setAuthenticated(true);
+    } else {
+      alert('Incorrect password');
+    }
+  };
+
+  if (!authenticated) {
+    return (
+      <div className="login-container">
+        <h1>Enter Password</h1>
+        <form onSubmit={handleLogin}>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const scanner = new Html5QrcodeScanner('reader', {

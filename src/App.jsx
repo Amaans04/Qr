@@ -10,6 +10,23 @@ export default function App() {
   const [scannedData, setScannedData] = useState('');
   const [modifiedQR, setModifiedQR] = useState('');
   const [decodedData, setDecodedData] = useState(null);
+  const [scanner, setScanner] = useState(null);
+
+  useEffect(() => {
+    if (authenticated) {
+      const newScanner = new Html5QrcodeScanner('reader', {
+        qrbox: { width: 250, height: 250 },
+        fps: 5,
+      });
+
+      newScanner.render(onScanSuccess, onScanError);
+      setScanner(newScanner);
+
+      return () => {
+        newScanner.clear();
+      };
+    }
+  }, [authenticated]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -19,36 +36,6 @@ export default function App() {
       alert('Incorrect password');
     }
   };
-
-  if (!authenticated) {
-    return (
-      <div className="login-container">
-        <h1>Enter Password</h1>
-        <form onSubmit={handleLogin}>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter password"
-          />
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    );
-  }
-
-  useEffect(() => {
-    const scanner = new Html5QrcodeScanner('reader', {
-      qrbox: { width: 250, height: 250 },
-      fps: 5,
-    });
-
-    scanner.render(onScanSuccess, onScanError);
-
-    return () => {
-      scanner.clear();
-    };
-  }, []);
 
   const onScanSuccess = (data) => {
     setScannedData(data);
@@ -92,6 +79,23 @@ export default function App() {
       console.error('Error generating QR code:', error);
     }
   };
+
+  if (!authenticated) {
+    return (
+      <div className="login-container">
+        <h1>Enter Password</h1>
+        <form onSubmit={handleLogin}>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <main className="container">

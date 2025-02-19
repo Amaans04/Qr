@@ -5,34 +5,7 @@ import QRCode from 'qrcode';
 import './App.css';
 
 export default function App() {
-  const [authenticated, setAuthenticated] = useState(false);
   const [scannedData, setScannedData] = useState('');
-
-  useEffect(() => {
-    // Check if user is authenticated
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/auth/check');
-        if (response.ok) {
-          setAuthenticated(true);
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-      }
-    };
-    checkAuth();
-  }, []);
-
-  if (!authenticated) {
-    return (
-      <div className="login-container">
-        <h1>Please Login</h1>
-        <button onClick={() => window.AuthWithReplit()}>
-          Login with Replit
-        </button>
-      </div>
-    );
-  }
   const [modifiedQR, setModifiedQR] = useState('');
   const [decodedData, setDecodedData] = useState(null);
 

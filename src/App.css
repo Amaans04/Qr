@@ -1,2 +1,46 @@
-main {
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.scanner-section {
+  margin: 20px 0;
+}
+
+.file-input {
+  margin: 20px 0;
+  padding: 10px;
+}
+
+.data-section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.data-section pre {
+  text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.qr-section {
+  margin: 20px 0;
+}
+
+.qr-code {
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+h2 {
+  margin-bottom: 15px;
 }

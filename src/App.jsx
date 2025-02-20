@@ -1,22 +1,21 @@
-
-import { useState, useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
-import QRCode from 'qrcode';
-import './App.css';
+import { useState, useEffect } from "react";
+import { Html5QrcodeScanner } from "html5-qrcode";
+import QRCode from "qrcode";
+import "./App.css";
 
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
-  const [scannedData, setScannedData] = useState('');
-  const [modifiedQR, setModifiedQR] = useState('');
+  const [password, setPassword] = useState("");
+  const [scannedData, setScannedData] = useState("");
+  const [modifiedQR, setModifiedQR] = useState("");
   const [decodedData, setDecodedData] = useState(null);
   const [scanner, setScanner] = useState(null);
 
   useEffect(() => {
     if (authenticated) {
-      const newScanner = new Html5QrcodeScanner('reader', {
+      const newScanner = new Html5QrcodeScanner("reader", {
         qrbox: { width: 250, height: 250 },
-        fps: 5,
+        fps: 7,
       });
 
       newScanner.render(onScanSuccess, onScanError);
@@ -30,10 +29,10 @@ export default function App() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password === 'MeraPapaAmaan') {
+    if (password === "MeraPapaAmaan") {
       setAuthenticated(true);
     } else {
-      alert('Incorrect password');
+      alert("Oh! Dont You know the Password? ;(");
     }
   };
 
@@ -51,23 +50,23 @@ export default function App() {
       // Decode base64
       const decodedString = atob(data);
       const jsonData = JSON.parse(decodedString);
-      
+
       // Modify QrEtime
       const modifiedData = {
         ...jsonData,
-        QrEtime: jsonData.QrEtime + 1800000
+        QrEtime: jsonData.QrEtime + 1800000,
       };
-      
+
       setDecodedData(modifiedData);
-      
+
       // Encode back to base64
       const modifiedString = JSON.stringify(modifiedData);
       const modifiedBase64 = btoa(modifiedString);
-      
+
       // Generate new QR code
       generateQRCode(modifiedBase64);
     } catch (error) {
-      console.error('Error processing data:', error);
+      console.error("Error processing data:", error);
     }
   };
 
@@ -76,7 +75,7 @@ export default function App() {
       const url = await QRCode.toDataURL(data);
       setModifiedQR(url);
     } catch (error) {
-      console.error('Error generating QR code:', error);
+      console.error("Error generating QR code:", error);
     }
   };
 
@@ -99,8 +98,8 @@ export default function App() {
 
   return (
     <main className="container">
-      <h1>QR Code Scanner & Modifier</h1>
-      
+      <h1>Do not feel like Attedning class?</h1>
+      <h3>I've got your Back 🤫</h3>
       <div className="scanner-section">
         <div id="reader"></div>
       </div>
@@ -108,7 +107,8 @@ export default function App() {
       {decodedData && (
         <div className="data-section">
           <h2>Decoded Data:</h2>
-          <pre>{JSON.stringify(decodedData, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(decodedData, null, 2)}</pre> */}
+          <h4>You Don't Really Need this.</h4>
         </div>
       )}
 

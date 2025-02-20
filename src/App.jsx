@@ -98,7 +98,7 @@ export default function App() {
 
   return (
     <main className="container">
-      <h1>Do not feel like Attedning class?</h1>
+      <h1>Do not feel like Attending class?</h1>
       <h3>I've got your Back 🤫</h3>
       <div className="scanner-section">
         <div id="reader"></div>

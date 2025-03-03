@@ -7,6 +7,7 @@ export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [scannedData, setScannedData] = useState("");
+  const [manualInput, setManualInput] = useState("");
   const [modifiedQR, setModifiedQR] = useState("");
   const [decodedData, setDecodedData] = useState(null);
   const [scanner, setScanner] = useState(null);
@@ -79,6 +80,13 @@ export default function App() {
     }
   };
 
+  const handleManualInput = (e) => {
+    e.preventDefault();
+    if (manualInput) {
+      processQRData(manualInput);
+    }
+  };
+
   if (!authenticated) {
     return (
       <div className="login-container">
@@ -102,6 +110,18 @@ export default function App() {
       <h3>I've got your Back 🤫</h3>
       <div className="scanner-section">
         <div id="reader"></div>
+      </div>
+
+      <div className="manual-input-section">
+        <h3>Or enter QR data manually:</h3>
+        <form onSubmit={handleManualInput}>
+          <textarea
+            value={manualInput}
+            onChange={(e) => setManualInput(e.target.value)}
+            placeholder="Paste QR data here"
+          />
+          <button type="submit">Process Data</button>
+        </form>
       </div>
 
       {decodedData && (
